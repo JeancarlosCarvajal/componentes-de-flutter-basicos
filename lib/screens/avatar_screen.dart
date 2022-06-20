@@ -22,7 +22,7 @@ class AvatarScreen extends StatelessWidget {
       body: const Center(
          child: CircleAvatar(
            maxRadius: 110,
-           backgroundImage: NetworkImage('https://nftlatinoamerica.com/img/seo/nftlatinoamerica-600-600.png'),
+           backgroundImage: NetworkImage('https://nftlatinoamerica.com/img/seo/nftlatinoamerica-600-600.png'), 
          ),
       ),
     );

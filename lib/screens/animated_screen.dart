@@ -22,7 +22,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     final random = Random(); 
     _width  = random.nextInt(150).toDouble() + 70;
     _height = random.nextInt(150).toDouble() + 70;
-    _color = Color.fromRGBO(random.nextInt(255), random.nextInt(255), random.nextInt(255), random.nextInt(255).roundToDouble());
+    _color = Color.fromRGBO(random.nextInt(255), random.nextInt(255), random.nextInt(255), random.nextDouble());
     _borderRadious = BorderRadius.circular(random.nextInt(100).toDouble() + 10); 
     setState(() { });
   }
@@ -34,15 +34,18 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         title:  const Text('Animated Conatiner'),
       ),
       body: Center(
-         child: Container(
-           width: _width,
-           height: _height,
+        child: AnimatedContainer( // Antes era Container
+          duration: const Duration(milliseconds: 400),
+          width: _width,
+          height: _height,
+          curve: Curves.easeOutCubic, // Toda animacion que reciba un curve puede usar clases de curve
+          // tenia bounceOut
           //  color: Colors.red, // no se puede usar colors y boxdecoration al mismo tiempo
-           decoration: BoxDecoration(
-             color: _color,
-             borderRadius: _borderRadious
-           ),
-         ),
+          decoration: BoxDecoration(
+            color: _color,
+            borderRadius: _borderRadious
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: changeShape,
