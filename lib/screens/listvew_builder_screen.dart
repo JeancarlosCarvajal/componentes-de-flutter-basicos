@@ -44,16 +44,6 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
     isLoading = false;
     setState(() { });
 
-  }
-
-
-  void add5(){
-    final lastId = ImagesIds.last;
-    ImagesIds.addAll(
-      [1,2,3,4,5].map((e) => lastId + e) // esto agrega 5 elementos al array comenzando desde el ultimo que tenia
-    );
-    setState(() { });
-    
     // Marramucia para que el indicador de cargando del scroll bottom se ve bien
     // Saber si estoy a 100 pixeles de temrinar el scroll en total del scrol, si estoy no tan cerca de 100px retorna nada, si estoy menos de 100px de cerca sigue 
     if(scrollController.position.pixels + 100 <= scrollController.position.maxScrollExtent) return;
@@ -66,6 +56,23 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
 
   }
 
+
+  void add5(){
+    final lastId = ImagesIds.last;
+    ImagesIds.addAll(
+      [1,2,3,4,5].map((e) => lastId + e) // esto agrega 5 elementos al array comenzando desde el ultimo que tenia
+    );
+    setState(() { });
+  }
+
+  // para hacer el pull refresh, esto es para que me refresque de mas imagenes cuando hale el scroll hacia arriba tipo instagram
+  Future<void> onRefresh() async {
+     await Future.delayed(const Duration(seconds: 2));
+     final lastId = ImagesIds.last;
+     ImagesIds.clear(); // elimina las imagenes
+     ImagesIds.add(lastId+1);
+     add5();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +89,25 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
         child: Stack( // le agrege otro widget a ListView del tipo columna y lo renombre con Stack para que me muestre un elemento cuando se detenga el scroll
           children: [
 
-            ListView.builder( // cualquier widget que tenga scroll usa controller
-              physics: const BouncingScrollPhysics(), // para que tenga el mismo efecto de IOS en Android cuando se llegue al final del scroll
-              controller: scrollController, // cualquier widget que tenga scroll usa controller
-              itemCount: ImagesIds.length, // cantidad de imagenes que muestra en la lista de imagenes
-              itemBuilder: (BuildContext context, int index){ // el index es como los contadores de un ciclo for, se le suma 1 porque arranca con cero
-                // print(index); // para ver que tiene
-                // print(context);
-                return FadeInImage(
-                  width: double.infinity, // toma todo el ancho posbile
-                  height: 300,
-                  fit: BoxFit.cover,
-                  placeholder: const AssetImage('assets/jar-loading.gif'),
-                  image: NetworkImage('https://picsum.photos/500/300?image=${ImagesIds[index]}'),
-                );
-              },
+            RefreshIndicator( // agrege este widget desde ListView.builder para hacer un pull refresh, al halar el scroll de arriba me cargue de mas images tipo instagram
+              color: AppTheme.primary, // se genera in icono de cargando automatico especial del widget un poco mas pequeno que el que cre
+              onRefresh: onRefresh, // es funcion que trabajan en un future
+              child: ListView.builder( // cualquier widget que tenga scroll usa controller
+                physics: const BouncingScrollPhysics(), // para que tenga el mismo efecto de IOS en Android cuando se llegue al final del scroll
+                controller: scrollController, // cualquier widget que tenga scroll usa controller
+                itemCount: ImagesIds.length, // cantidad de imagenes que muestra en la lista de imagenes
+                itemBuilder: (BuildContext context, int index){ // el index es como los contadores de un ciclo for, se le suma 1 porque arranca con cero
+                  // print(index); // para ver que tiene
+                  // print(context);
+                  return FadeInImage(
+                    width: double.infinity, // toma todo el ancho posbile
+                    height: 300,
+                    fit: BoxFit.cover,
+                    placeholder: const AssetImage('assets/jar-loading.gif'),
+                    image: NetworkImage('https://picsum.photos/500/300?image=${ImagesIds[index]}'),
+                  );
+                },
+              ),
             ),
 
             if( isLoading ) // no se permite expresion {} en el condicional
