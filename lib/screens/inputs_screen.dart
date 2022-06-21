@@ -25,21 +25,21 @@ class InputsScreen extends StatelessWidget {
       body: SingleChildScrollView( 
         child: Padding( 
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Form(
+          child: Form( // este form sabe donde estan los trextformfields
             key: myFormKey,
             child: Column(
               children:  [
           
-                const CustomInputField(labelText: 'Nombre', hintText: 'Nombre de Usuario', ),
+                CustomInputField(labelText: 'Nombre', hintText: 'Nombre de Usuario', formProperty: 'first_name', formValues: formValues, ),
                 const SizedBox(height: 30,),
           
-                const CustomInputField(labelText: 'Apellido', hintText: 'Apellido de Usuario', ),
+                CustomInputField(labelText: 'Apellido', hintText: 'Apellido de Usuario', formProperty: 'last_name', formValues: formValues, ),
                 const SizedBox(height: 30,),
           
-                const CustomInputField(labelText: 'Correo', hintText: 'Correo de Usuario', keyboardType: TextInputType.emailAddress),
+                CustomInputField(labelText: 'Correo', hintText: 'Correo de Usuario', keyboardType: TextInputType.emailAddress, formProperty: 'email', formValues: formValues, ),
                 const SizedBox(height: 30,),
           
-                const CustomInputField(labelText: 'Contrasena', hintText: 'Contrasena de Usuario', obscureText: true),
+                CustomInputField(labelText: 'Contrasena', hintText: 'Contrasena de Usuario', obscureText: true, formProperty: 'password', formValues: formValues, ),
                 const SizedBox(height: 30,),
           
                 ElevatedButton(
@@ -55,7 +55,8 @@ class InputsScreen extends StatelessWidget {
                     if(!myFormKey.currentState!.validate()){
                       print('No valido');
                     }
-                    // Todo imprimir valor del formulario
+                    // Imprimir valor del formulario
+                    // Aqui los valores se envian con peticion https al servidor
                     print(formValues);
                     
                   }, 

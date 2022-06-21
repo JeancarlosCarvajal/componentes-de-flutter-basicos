@@ -11,6 +11,10 @@ final IconData? suffixIcon;
 final TextInputType? keyboardType;
 final bool? obscureText;
 
+final String formProperty;
+final Map<String, String> formValues;
+
+
   const CustomInputField({
     Key? key, 
     this.hintText, 
@@ -20,6 +24,8 @@ final bool? obscureText;
     this.suffixIcon,
     this.keyboardType,
     this.obscureText,
+    required this.formProperty,
+    required this.formValues,
   }) : super(key: key);
 
   @override
@@ -31,9 +37,10 @@ final bool? obscureText;
       keyboardType: keyboardType, //era  TextInputType.emailAddress,
       obscureText: obscureText ?? false,
       onChanged: (value){
-        print('Valor: $value');
+        // print('Valor: $value');
+        formValues[formProperty] = value;
       },
-      validator: (value){
+      validator: (value){ // Aqui se puede colocar la funcion validadora especifica
         if(value == null) return 'Este campo es requerido';
         return value.length < 3 ? 'Minimo 3 letras' : null;
         // si regresa null el mensjae de error se elimina
