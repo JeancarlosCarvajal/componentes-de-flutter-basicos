@@ -20,42 +20,34 @@ class _SliderScreenState extends State<SliderScreen> {
       appBar: AppBar(
         title: const Text('Slider && checks'),
       ),
-      body: SingleChildScrollView( // permite ahcer scrol cuando se sale de la pantalla 
-        child: Column( // agrege in widget con control punto SingleChildScrollView para que me permita hcer scroll
-           children: [
-             Slider.adaptive ( // verificar siempre si tiene la opcion adpatative para mejorar experiencia en otros dispositivos como IOS
-               min: 50,
-               max: 400,
-               activeColor: AppTheme.primary,
-              // divisions: 10,
-               value: _sliderValue, 
-               onChanged: (value){
-                 print(value);
-                 _sliderValue = value;
-                 setState(() { });
+      body: Column( // agrege in widget con control punto SingleChildScrollView para que me permita hcer scroll
+         children: [
+           Slider.adaptive ( // verificar siempre si tiene la opcion adpatative para mejorar experiencia en otros dispositivos como IOS
+             min: 50,
+             max: 400,
+             activeColor: AppTheme.primary,
+            // divisions: 10,
+             value: _sliderValue, 
+             onChanged: (value){
+               print(value);
+               _sliderValue = value;
+               setState(() { });
       
-               }
+             }
+            ), 
+
+            
+            Expanded(
+              child: SingleChildScrollView( // Aqui el scoll es localidao en el elemento parecido en html
+                child: Image(
+                  image: const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTziSjZy1lhoKQaQ5mu8SlymX0hCPEQQQ4VcCKBqjSV3YYmWUMbIGqH1NvFFah13HBYO4&usqp=CAU'),
+                  fit: BoxFit.contain,
+                  width: _sliderValue,
+                ),
               ),
-              Image(
-                image: const NetworkImage('https://healthybelleza.com/img/en/clay-on-face-90-0.webp'),
-                fit: BoxFit.contain,
-                width: _sliderValue,
-              ),
-              const SizedBox(height: 30,),
-              Image(
-                image: const NetworkImage('https://healthybelleza.com/img/en/woman-cleaning-her-face-93-0.webp'),
-                fit: BoxFit.contain,
-                width: _sliderValue,
-              ), 
-              const SizedBox(height: 30,),
-              Image(
-                image: const NetworkImage('https://healthybelleza.com/img/en/young-skin-woman-91-0.webp'),
-                fit: BoxFit.contain,
-                width: _sliderValue,
-              ), 
-              const SizedBox(height: 100,) // para que  deje espacio en el footer no se pegue del final
-           ],
-        ),
+            ), 
+            const SizedBox(height: 100,) // para que  deje espacio en el footer no se pegue del final
+         ],
       ),
     );
   }
