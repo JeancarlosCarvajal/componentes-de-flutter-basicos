@@ -65,7 +65,7 @@ class _SliderScreenState extends State<SliderScreen> {
               activeColor: AppTheme.primary,
               title: const Text('Habilitar Slider'),
               value: _sliderEnabled, 
-              onChanged:  (value) => setState(() {_sliderEnabled = value ?? true;})
+              onChanged:  (value) => setState(() {_sliderEnabled = value;})
             ),
 
             const AboutListTile(), // muestra una lista de toda la informacion de la aplicacion
