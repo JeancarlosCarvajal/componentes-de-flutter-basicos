@@ -27,7 +27,7 @@ class _SliderScreenState extends State<SliderScreen> {
              max: 400,
              activeColor: AppTheme.primary,
             // divisions: 10,
-             value: _sliderValue, 
+             value: _sliderValue,
              onChanged: (value){
                print(value);
                _sliderValue = value;
