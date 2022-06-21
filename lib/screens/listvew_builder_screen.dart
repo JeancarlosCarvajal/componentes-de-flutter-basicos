@@ -53,6 +53,17 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
       [1,2,3,4,5].map((e) => lastId + e) // esto agrega 5 elementos al array comenzando desde el ultimo que tenia
     );
     setState(() { });
+    
+    // Marramucia para que el indicador de cargando del scroll bottom se ve bien
+    // Saber si estoy a 100 pixeles de temrinar el scroll en total del scrol, si estoy no tan cerca de 100px retorna nada, si estoy menos de 100px de cerca sigue 
+    if(scrollController.position.pixels + 100 <= scrollController.position.maxScrollExtent) return;
+
+    scrollController.animateTo( // permite mover el scroll a cierta position
+      scrollController.position.pixels + 120, // esta es la position en pixeles donde debo colocar el scroll 
+      duration: const Duration(milliseconds: 300), 
+      curve: Curves.fastLinearToSlowEaseIn
+    );
+
   }
 
 
@@ -88,13 +99,18 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
               },
             ),
 
-
-            Positioned(
-              bottom: 40,
-              left: (size.width*0.5) - 30, // 30 es la mitad de tamano del bicho de 60.. size.width*0.5 es para ver la mitad
-              child: _loadingIcon()
-            ), // era column y lo extrai de aqui con extract widget
-
+            if( isLoading ) // no se permite expresion {} en el condicional
+              Positioned( // era column y lo extrai de aqui con extract widget
+                bottom: 40,
+                left: (size.width*0.5) - 30, // 30 es la mitad de tamano del bicho de 60.. size.width*0.5 es para ver la mitad
+                child: const _LoadingIcon()
+              ) 
+            // else // para pruebas recuerda quitar la coma de arriba para que funcione este else
+            //   Positioned( // era column y lo extrai de aqui con extract widget
+            //     bottom: 40,
+            //     left: (size.width*0.5) - 30, // 30 es la mitad de tamano del bicho de 60.. size.width*0.5 es para ver la mitad
+            //     child: const Text('Test')
+            //   ),
 
           ],
         ),
@@ -103,8 +119,8 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
   }
 }
 
-class _loadingIcon extends StatelessWidget {
-  const _loadingIcon({
+class _LoadingIcon extends StatelessWidget {
+  const _LoadingIcon({
     Key? key,
   }) : super(key: key);
 
