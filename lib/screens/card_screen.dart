@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:fl_components/widgets/widgets.dart'; 
+import 'package:fl_components/widgets/widgets.dart'; // 'show ' mas control tab se oberva lo que se usa de esa importacion 
 
 
 class CardScreen extends StatelessWidget {
